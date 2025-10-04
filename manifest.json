@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "CORTEX",
+  "version": "1.0.0",
+  "description": "AI-powered Collective Memory",
+  "permissions": ["tabs", "storage"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "icons": {
+    "16": "assets/cortex-16.png",
+    "32": "assets/cortex-32.png",
+    "48": "assets/cortex-48.png",
+    "128": "assets/cortex-128.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "My Collective Memory"
+  }
+}
