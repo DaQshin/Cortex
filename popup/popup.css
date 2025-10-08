@@ -1,48 +1,99 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Geist+Mono:wght@100..900&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Geist+Mono:wght@100..900&display=swap");
 
 * {
-  font-family: "Giest Mono", sans-serif;
-  background-color: #121314;
-  color: white;
-  text-decoration: none;
+  background-color: #fafafa;
+}
+
+header > h1 {
+  letter-spacing: 8px;
+  font-weight: 100;
+  font-size: xx-large;
+  font-family: "Bebas Neue", sans-serif;
+}
+
+article > h1 {
+  font-family: "Geist Mono", sans-serif;
+}
+
+.highlight {
+  background: linear-gradient(120deg, #6366f1 0%, #a855f7 100%);
+  background-clip: inherit;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  position: relative;
+}
+
+.highlight::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0.1em;
+  width: 100%;
+  height: 0.4em;
+  background: rgba(167, 139, 250, 0.25);
+  z-index: -1;
+  border-radius: 2px;
 }
 
 body {
   width: 400px;
+  font-family: "Inter", sans-serif;
+  color: #111827;
+  background: linear-gradient(to bottom right, #ffffff, #f9f5ff);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.08);
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-h1 {
-  font-weight: 200;
-  letter-spacing: 8px;
-}
-
-header {
-  height: 68px;
-  width: 100%;
-  border-bottom: 1px solid rgb(50, 50, 50);
-  display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-}
-
-#semantic-search {
-  display: flex;
-  flex-direction: row;
   justify-content: center;
-  align-items: center;
+  text-align: center;
+  flex-direction: column;
   gap: 12px;
 }
 
-input {
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  height: 32px;
-  width: 50%;
-  outline: none;
+#view-div {
+  display: block;
+}
+
+#tab-list-div,
+.history-elements {
+  display: none;
+}
+
+span.history-elements {
+  position: fixed;
+  top: 20;
+  left: 20;
+}
+
+button {
+  border-radius: 9999px;
+  padding: 0.6rem 1.2rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3);
+}
+
+a {
+  text-decoration: none;
+  color: #6366f1;
+  cursor: pointer;
+}
+
+a:hover {
+  color: #a855f7;
+}
+
+footer {
+  font-size: smaller;
+  color: gray;
+  gap: 1px;
 }
 
 .tab-logo {
@@ -70,22 +121,7 @@ input {
     0 2px 6px rgba(255, 255, 255, 0.1);
 }
 
-button {
-  border-radius: 8px;
-  padding: 10px;
-  background-color: rgb(67, 106, 106);
-  border: none;
-}
-
-button:hover {
-  background-color: rgb(76, 76, 76);
-}
-
 .history-operations {
   display: flex;
   gap: 12px;
-}
-
-#clear {
-  background-color: rgb(90, 0, 0);
 }

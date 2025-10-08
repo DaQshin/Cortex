@@ -35,9 +35,9 @@ const renderHistory = () => {
         historyContainer.appendChild(historyElement);
       });
     } else {
-      const fallbackUI = doument.createElement("div");
+      const fallbackUI = document.createElement("div");
       const img = document.createElement("img");
-      img.src = "../assets/fallback-tab-logo";
+      img.src = "../assets/fallback-tab-logo.png";
       const p = document.createElement("p");
       p.textContent = "Tabs you search appear here.";
       fallbackUI.append(img, p);
@@ -46,9 +46,27 @@ const renderHistory = () => {
   });
 };
 
-renderHistory();
-clearAllHistories();
+const ViewToHistory = () => {
+  document.getElementById("view-div").style.display = "none";
+  document.getElementById("tab-list-div").style.display = "block";
+  document
+    .querySelectorAll(".history-elements")
+    .forEach((el) => (el.style.display = "block"));
+};
 
-chrome.storage.onChanged.addListener(() => {
+const historyToView = () => {
+  document.getElementById("view-div").style.display = "block";
+  document.getElementById("tab-list-div").style.display = "none";
+  document
+    .querySelectorAll(".history-elements")
+    .forEach((el) => (el.style.display = "none"));
+};
+
+const viewTabsBtn = document.getElementById("view-btn");
+viewTabsBtn.addEventListener("click", () => {
+  ViewToHistory();
   renderHistory();
 });
+// chrome.storage.onChanged.addListener(() => {
+//   renderHistory();
+// });
