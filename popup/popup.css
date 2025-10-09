@@ -12,7 +12,7 @@ header > h1 {
   font-family: "Bebas Neue", sans-serif;
 }
 
-article > h1 {
+article > h1 h3 {
   font-family: "Geist Mono", sans-serif;
 }
 
@@ -37,11 +37,22 @@ article > h1 {
   border-radius: 2px;
 }
 
+.subheading {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #4a4a4a;
+  margin-bottom: 48px;
+  max-width: 460px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 body {
+  height: auto;
   width: 400px;
   font-family: "Inter", sans-serif;
   color: #111827;
-  background: linear-gradient(to bottom right, #ffffff, #f9f5ff);
+  /* background: linear-gradient(to bottom right, #ffffff, #f9f5ff); */
   border-radius: 16px;
   box-shadow: 0 8px 32px rgba(99, 102, 241, 0.08);
   display: flex;
@@ -54,11 +65,19 @@ body {
 
 #view-div {
   display: block;
+  max-height: 400px;
 }
 
 #tab-list-div,
 .history-elements {
   display: none;
+}
+
+.back-btn:hover {
+  fill: url(#hoverGradient);
+}
+.fallback-logo {
+  fill: url(#hoverGradient);
 }
 
 span.history-elements {
@@ -91,9 +110,9 @@ a:hover {
 }
 
 footer {
+  background: linear-gradient(to bottom right, #ffffff, #f9f5ff);
   font-size: smaller;
-  color: gray;
-  gap: 1px;
+  color: rgb(162, 162, 162);
 }
 
 .tab-logo {

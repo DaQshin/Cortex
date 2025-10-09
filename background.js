@@ -1,14 +1,23 @@
-let histories = [];
+import { setTitle } from "./popup/model.js";
 
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  if (changeInfo.status === "complete" && tab.url) {
-    const tabTitle = tab.title;
-    const tabURL = tab.url;
-    const favIconURL = tab.favIconUrl;
-    const newResult = { tabId, tabTitle, tabURL, favIconURL };
-    histories = [...histories, newResult];
-    chrome.storage.local
-      .set({ histories })
-      .then(() => console.log("Storage updated"));
+const updateStorage = async (tab) => {
+  const tabId = tab.id;
+  const tabTitle = await setTitle(tab.title);
+  const tabURL = tab.url;
+  const favIconURL = tab.favIconUrl;
+  const newHistory = { tabId, tabTitle, tabURL, favIconURL };
+  const { histories = [] } = await chrome.storage.local.get("histories");
+  const updatedHistories = [...histories, newHistory];
+  await chrome.storage.local
+    .set({ histories: updatedHistories })
+    .then(() => console.log("Storage updated"));
+};
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === "save") {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const activeTab = tabs[0];
+      updateStorage(activeTab);
+    });
   }
 });
