@@ -1,57 +1,38 @@
-let status;
-let modelSession = null;
-let params = null;
-export const initModel = async () => {
-  status = await LanguageModel.availability();
-  if (status === "downloadable") {
-    console.log("Model downloadable - waiting for user activation...");
-    document.addEventListener("click", () => {
-      if (!navigator.userActivation.isActive) {
-        console.log("User activation not detected ");
-        return;
-      }
-
-      console.log("User activation detected ");
-
-      LanguageModel.create({
-        monitor(m) {
-          m.addEventListener("downloadprogress", (e) => {
-            console.log(`Downloaded ${(e.loaded * 100).toFixed(2)}%`);
-          });
-        },
-      }).then((session) => {
-        modelSession = session;
-        console.log("model ready, session created.");
-      });
-    });
-  } else {
-    modelSession = await LanguageModel.create({
-      initialPrompts: [
-        {
-          role: "system",
-          content: `You are an AI assistant that shortens web page titles for display in a tab list. 
-- Output should be concise (1-3 words). 
-- Preserve main topic or keywords.
-- Remove unnecessary words or branding.
-- Output only the shortened title.`,
-        },
-      ],
-    });
-  }
+let session = null;
+export const checkAvailability = async () => {
+  const availability = await LanguageModel.availability();
+  return availability;
 };
 
-console.log("modelSession " + modelSession);
+export const createSession = async (availability, params) => {
+  try {
+    const availability = await checkAvailability();
+    if (availability === "downloadable") {
+      session = await LanguageModel.create({
+        monitor(m) {
+          m.addEventListener("downloadprogress", (e) => {
+            console.log(`Downloaded ${e.loaded * 100}%`);
+          });
+        },
+      });
+    } else if (!session) session = await LanguageModel.create(params);
+  } catch (err) {
+    console.log(err);
+  }
+
+  console.log(session);
+};
 
 export const setTitle = async (longTitle) => {
   const quick = longTitle.split(/[-|-]/)[0].trim();
 
-  if (!modelSession) {
+  if (!session) {
     console.log("model not ready - using quick title...");
     return quick;
   }
 
   try {
-    const response = await modelSession.prompt(
+    const response = await session.prompt(
       `Original tab title: "${longTitle}"\nShortened:`
     );
 
@@ -63,13 +44,18 @@ export const setTitle = async (longTitle) => {
 };
 
 export const getTags = async (content) => {
-  if (!modelSession) {
+  if (!session) {
     console.log("model not ready - returning empty tags");
     return [];
   }
-  const systemPrompt = `Generate 1-4 concise tags for this page content. Return only a comma-separated list.
+  try {
+    const systemPrompt = `Generate 1-4 concise tags for this page content. Return only a comma-separated list.
 Content: ${content}`;
 
-  const response = await modelSession.prompt(systemPrompt);
-  return response.split(",");
+    const response = await session.prompt(systemPrompt);
+    return response.split(",").map((el) => el.trim());
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
 };

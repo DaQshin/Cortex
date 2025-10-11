@@ -1,4 +1,4 @@
-import { setTitle } from "./model.js";
+import { setTitle, getTags } from "./model.js";
 
 const updateStorage = async (tab) => {
   const tabId = tab.id;
@@ -14,15 +14,22 @@ const updateStorage = async (tab) => {
   console.log("Storage updated");
 };
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   if (message.action === "save") {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const activeTab = tabs[0];
       updateStorage(activeTab);
     });
   }
+});
 
-  if (message.header?.type === "content/text") {
-    sendResponse("hello");
-  }
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  chrome.tabs.sendMessage(tabId, {
+    header: {
+      type: "request",
+    },
+    body: {
+      message: "page content",
+    },
+  });
 });
