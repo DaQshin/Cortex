@@ -1,28 +1,20 @@
-import { getHistories, clearHistories } from "./storage.js";
-import { setTitle } from "./model.js";
+import { getHistories, clearHistories } from "../storage.js";
 
 const backBtn = document.querySelector(".back-btn");
 const saveTabBtn = document.getElementById("save-tab-btn");
 const clearAllBtn = document.getElementById("clear-all-btn");
 
-export const ViewToHistory = () => {
-  document.getElementById("view-div").style.display = "none";
-  document.getElementById("tab-list-div").style.display = "block";
-  document
-    .querySelectorAll(".history-elements")
-    .forEach((el) => (el.style.display = "block"));
-};
-
-export const historyToView = () => {
-  document.getElementById("view-div").style.display = "block";
-  document.getElementById("tab-list-div").style.display = "none";
-  document
-    .querySelectorAll(".history-elements")
-    .forEach((el) => (el.style.display = "none"));
-};
+clearAllBtn.addEventListener("click", async () => {
+  await clearHistories();
+  await renderHistory();
+  clearAllBtn.style.display = "none";
+});
 
 saveTabBtn.addEventListener("click", () => {
   chrome.runtime.sendMessage({
+    header: {
+      type: "operation/storage",
+    },
     action: "save",
   });
 });
@@ -36,8 +28,9 @@ const createHistoryElement = async (history) => {
   const historyElement = historyTemplate.content.cloneNode(true);
   const tabLogo = historyElement.querySelector(".tab-logo");
   const tabTitle = historyElement.querySelector(".tab-title");
-  if (!history.favIconURL) tabLogo.src = "../assets/fallback-logo.png";
-  else tabLogo.src = history.favIconURL;
+  // if (!history.favIconURL) tabLogo.src = "../assets/fallback-logo.png";
+  // else tabLogo.src = history.favIconURL;
+  tabLogo.src = history.favIconURL;
 
   console.log("logo : " + tabLogo.src);
   tabLogo.id = `${history.tabId}-tab-logo`;
@@ -60,7 +53,6 @@ export const renderHistory = async () => {
       </div>
     `;
     clearAllBtn.style.display = "none";
-    //<img src="../assets/fallback-tab-logo.png" />
     return;
   }
   clearAllBtn.style.display = "block";
@@ -68,8 +60,18 @@ export const renderHistory = async () => {
   elements.forEach((el) => historyContainer.appendChild(el));
 };
 
-clearAllBtn.addEventListener("click", async () => {
-  await clearHistories();
-  await renderHistory();
-  clearAllBtn.style.display = "none";
-});
+export const ViewToHistory = () => {
+  document.getElementById("view-div").style.display = "none";
+  document.getElementById("tab-list-div").style.display = "block";
+  document
+    .querySelectorAll(".history-elements")
+    .forEach((el) => (el.style.display = "block"));
+};
+
+export const historyToView = () => {
+  document.getElementById("view-div").style.display = "block";
+  document.getElementById("tab-list-div").style.display = "none";
+  document
+    .querySelectorAll(".history-elements")
+    .forEach((el) => (el.style.display = "none"));
+};

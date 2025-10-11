@@ -1,6 +1,21 @@
 <html>
-  <link rel="stylesheet" href="popup.css" />
+  <link rel="stylesheet" href="main.css" />
   <body>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      role="img"
+      class="icon filter-icon icon-14"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M0 6C0 5.17157 0.671573 4.5 1.5 4.5H22.5C23.3284 4.5 24 5.17157 24 6C24 6.82843 23.3284 7.5 22.5 7.5H1.5C0.671573 7.5 0 6.82843 0 6ZM3 12C3 11.1716 3.67157 10.5 4.5 10.5H19.5C20.3284 10.5 21 11.1716 21 12C21 12.8284 20.3284 13.5 19.5 13.5H4.5C3.67157 13.5 3 12.8284 3 12ZM7.5 16.5C6.67157 16.5 6 17.1716 6 18C6 18.8284 6.67157 19.5 7.5 19.5H16.5C17.3284 19.5 18 18.8284 18 18C18 17.1716 17.3284 16.5 16.5 16.5H7.5Z"
+      ></path>
+    </svg>
     <span class="history-elements">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -33,6 +48,8 @@
         </p>
       </article>
       <div id="action-buttons">
+        <button class="action-btn" id="extract-btn">Extract</button>
+        <button class="action-btn" id="map-btn">Map</button>
         <button class="action-btn" id="view-btn">View Tabs</button>
         <button class="action-btn" id="save-tab-btn">Save Current Tab</button>
       </div>
@@ -43,26 +60,18 @@
       <template id="history-item-template">
         <div class="history-item">
           <div class="history-header">
-            <img class="tab-logo" src="" />
-            <a href="" target="_blank" class="tab-title"></a>
-            <span class="history-tags"></span>
+            <div class="history-title">
+              <img class="tab-logo" src="" />
+              <a href="" target="_blank" class="tab-title"></a>
+            </div>
+            <div class="tags-container">
+              <span class="tags">Tag</span>
+            </div>
           </div>
+
           <div class="history-operations">
-            <button>Summarize</button>
-            <button>Visualize</button>
-            <span class="date-time"
-              ><svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-                fill="#000000"
-              >
-                <path
-                  d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"
-                />
-              </svg>
-            </span>
+            <button class="history-act-btn">Extract</button>
+            <button class="history-act-btn">Map</button>
           </div>
         </div>
       </template>
@@ -71,11 +80,11 @@
 
     <footer>
       <small>
-        &#x1F512; All data stays private on your device&mdash;nothing leaves
+        &#x1F512; All data stays private on your device &mdash; nothing leaves
         your computer.
       </small>
     </footer>
 
-    <script type="module" src="popup.js"></script>
+    <script type="module" src="main.js"></script>
   </body>
 </html>

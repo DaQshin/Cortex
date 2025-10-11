@@ -3,13 +3,19 @@
   "name": "Cortex",
   "version": "1.0.0",
   "description": "AI-powered Collective Memory",
-  "permissions": ["tabs", "storage"],
+  "permissions": ["tabs", "storage", "scripting"],
   "background": {
     "service_worker": "background.js",
     "type": "module"
   },
+  "content_scripts": [
+    {
+      "matches": ["https://*/*"],
+      "js": ["scripts/content.js"]
+    }
+  ],
   "action": {
-    "default_popup": "popup/popup.html",
+    "default_popup": "popup/main.html",
     "default_title": "My Collective Memory"
   }
 }
