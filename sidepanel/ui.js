@@ -1,51 +1,69 @@
-import { getHistories, clearHistories } from "../storage.js";
+import { getHistories, clearHistories, deleteHistory } from "../storage.js";
 
 const backBtn = document.querySelector(".back-btn");
 const saveTabBtn = document.getElementById("save-tab-btn");
 const clearAllBtn = document.getElementById("clear-all-btn");
 
+// ==================== Button Handlers ====================
 clearAllBtn.addEventListener("click", async () => {
   await clearHistories();
   await renderHistory();
-  clearAllBtn.style.display = "none";
 });
 
 saveTabBtn.addEventListener("click", () => {
-  chrome.runtime.sendMessage({
-    header: {
-      type: "operation/storage",
-    },
-    action: "save",
-  });
+  chrome.runtime.sendMessage({ action: "save" });
 });
 
 backBtn.addEventListener("click", () => {
   historyToView();
 });
 
-const createHistoryElement = async (history) => {
+// ==================== Create History Element ====================
+const createHistoryElement = (history) => {
   const historyTemplate = document.getElementById("history-item-template");
-  const historyElement = historyTemplate.content.cloneNode(true);
-  const tabLogo = historyElement.querySelector(".tab-logo");
-  const tabTitle = historyElement.querySelector(".tab-title");
-  // if (!history.favIconURL) tabLogo.src = "../assets/fallback-logo.png";
-  // else tabLogo.src = history.favIconURL;
-  tabLogo.src = history.favIconURL;
+  const fragment = historyTemplate.content.cloneNode(true);
 
-  console.log("logo : " + tabLogo.src);
+  const container = document.createElement("div");
+  container.classList.add("history-item-container");
+  container.dataset.url = history.tabURL;
+  container.appendChild(fragment);
+
+  const tabLogo = container.querySelector(".tab-logo");
+  const tabTitle = container.querySelector(".tab-title");
+  const delBtn = container.querySelector(".history-del-btn");
+
+  tabLogo.src = history.favIconURL || "../assets/fallback-logo.png";
   tabLogo.id = `${history.tabId}-tab-logo`;
+
   tabTitle.textContent = history.tabTitle;
   tabTitle.id = `${history.tabId}-tab-title`;
-  tabTitle.href = history.tabURL;
 
-  return historyElement;
+  if (tabTitle.tagName.toLowerCase() === "a") {
+    tabTitle.href = history.tabURL;
+  } else {
+    tabTitle.addEventListener("click", () =>
+      window.open(history.tabURL, "_blank")
+    );
+  }
+
+  delBtn.addEventListener("click", async () => {
+    const url = container.dataset.url;
+    console.log("Deleting tab URL:", url);
+    await deleteHistory(url);
+    await renderHistory();
+  });
+
+  return container;
 };
 
+// ==================== Render History ====================
 export const renderHistory = async () => {
   const historyContainer = document.getElementById("history-container");
   const histories = await getHistories();
+
   historyContainer.innerHTML = "";
-  if (histories.length === 0) {
+
+  if (!histories || histories.length === 0) {
     historyContainer.innerHTML = `
       <div class="fallback-ui">
         <h1>All clear. <br/>
@@ -55,11 +73,16 @@ export const renderHistory = async () => {
     clearAllBtn.style.display = "none";
     return;
   }
+
   clearAllBtn.style.display = "block";
-  const elements = await Promise.all(histories.map(createHistoryElement));
-  elements.forEach((el) => historyContainer.appendChild(el));
+
+  histories.forEach((history) => {
+    const el = createHistoryElement(history);
+    historyContainer.appendChild(el);
+  });
 };
 
+// ==================== View Switching ====================
 export const ViewToHistory = () => {
   document.getElementById("view-div").style.display = "none";
   document.getElementById("tab-list-div").style.display = "block";

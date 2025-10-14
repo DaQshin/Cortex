@@ -1,0 +1,82 @@
+<html>
+  <link rel="stylesheet" href="main.css" />
+  <body>
+    <header>
+      <span class="history-elements">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="18px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          class="back-btn"
+        >
+          <defs>
+            <linearGradient id="hoverGradient">
+              <stop offset="0%" style="stop-color: #6366f1" />
+              <stop offset="100%" style="stop-color: #a855f7" />
+            </linearGradient>
+          </defs>
+          <path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z" />
+        </svg>
+      </span>
+      <h1 id="extension-title">Cortex</h1>
+    </header>
+    <div id="view-div">
+      <article>
+        <h1>
+          Your browsing history,
+          <span class="highlight"> actually useful.</span>
+        </h1>
+        <p class="subheading">
+          Turn scattered tabs into connected insights <br />you can actually
+          find and use.
+        </p>
+      </article>
+      <div id="action-buttons">
+        <button class="action-btn summary-btn">Summarize</button>
+        <button class="action-btn visual-btn">Visualize</button>
+        <button class="action-btn" id="view-btn">View Tabs</button>
+        <button class="action-btn" id="save-tab-btn">Save Tab</button>
+      </div>
+    </div>
+    <div id="tab-list-div">
+      <div id="history-container"></div>
+
+      <template id="history-item-template">
+        <div class="history-item">
+          <div class="history-header">
+            <div class="history-title">
+              <img class="tab-logo" src="" />
+              <a href="" target="_blank" class="tab-title"></a>
+            </div>
+            <div class="tags-container">
+              <span class="tags">Tag</span>
+            </div>
+          </div>
+
+          <div class="history-operations">
+            <button class="action-btn history-act-btn summary-btn">
+              Visualize
+            </button>
+            <button class="action-btn history-act-btn visual-btn">
+              Summarize
+            </button>
+            <button class="action-btn history-act-btn history-del-btn">
+              Delete
+            </button>
+          </div>
+        </div>
+      </template>
+      <button id="clear-all-btn">Clear Histories</button>
+    </div>
+
+    <footer>
+      <small>
+        &#x1F512; All data stays private on your device &mdash; nothing leaves
+        your computer.
+      </small>
+    </footer>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,269 @@
+/* =========================
+   FONTS
+========================= */
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Geist+Mono:wght@100..900&family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap");
+
+/* =========================
+   GLOBAL LAYOUT & BODY
+========================= */
+body {
+  width: 100%;
+  min-height: 480px;
+  max-height: 640px;
+  font-family: "Inter Tight", sans-serif;
+  color: #111827;
+  background: linear-gradient(135deg, #ffffff 0%, #f5f3ff 100%);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  /* padding: 16px 16px 16px 16px; */
+  gap: 16px;
+  overflow-y: auto;
+}
+
+/* =========================
+   HEADER & TITLES
+========================= */
+header {
+  margin-bottom: 32px;
+}
+
+article {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header > h1 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 36px;
+  letter-spacing: 6px;
+  margin: 0 0 16px 0;
+  top: 24px;
+}
+
+article > h1 {
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.highlight {
+  background: linear-gradient(120deg, #6366f1 0%, #a855f7 100%);
+  background-clip: initial;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+
+.subheading {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #4a4a4a;
+  max-width: 300px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+button {
+  border: none;
+  font-family: "Geist Mono", monospace;
+  font-weight: 400;
+  background: #7b61ff;
+  color: #fff;
+  border-radius: 10px;
+  padding: 0.6rem 1.2rem;
+  box-shadow: 0 3px 10px rgba(123, 97, 255, 0.2);
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(123, 97, 255, 0.35);
+  background: linear-gradient(120deg, #6366f1, #a855f7);
+}
+
+#action-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 150px);
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* =========================
+   LINKS
+========================= */
+a {
+  text-decoration: none;
+  color: #6366f1;
+  transition: 0.2s;
+}
+
+a:hover {
+  color: #a855f7;
+}
+
+/* =========================
+   FOOTER
+========================= */
+footer {
+  margin-top: auto;
+  font-size: 12px;
+  color: #9ca3af;
+  text-align: center;
+  padding-top: 12px;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c7c7c7;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+/* =========================
+   HISTORY ITEMS
+========================= */
+#history-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  gap: 12px;
+  padding: 0;
+}
+
+.history-item {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(99, 102, 241, 0.05);
+  padding: 12px;
+  height: 100px;
+  width: 350px;
+  text-align: left;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.history-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.12);
+}
+
+.history-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.tab-logo {
+  height: 18px;
+  width: 18px;
+}
+
+.tab-title {
+  font-size: 15px;
+  color: #111;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tags {
+  border: 1px solid #a855f7;
+  border-radius: 9999px;
+  padding: 2px 8px;
+  font-size: 11px;
+  color: #a855f7;
+}
+
+/* History buttons */
+.history-act-btn {
+  background: #6366f1;
+  font-size: 12px;
+  padding: 4px 10px;
+  margin-right: 8px;
+}
+
+.history-act-btn:hover {
+  background: #7b61ff;
+}
+
+#tab-list-div,
+.history-elements {
+  display: none;
+}
+
+#clear-all-btn {
+  background: #111827;
+  color: white;
+  margin-top: 12px;
+  display: none;
+}
+#clear-all-btn:hover {
+  background: #27272a;
+}
+
+/* =========================
+   ICONS
+========================= */
+.back-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+}
+
+.back-btn:hover {
+  fill: url(#hoverGradient);
+}
+
+/* =========================
+   OPENING LAYOUT
+========================= */
+
+#view-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+/* =========================
+   FALLBACK
+========================= */
+
+.fallback-ui {
+  font-weight: thin;
+  font-size: 16px;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}

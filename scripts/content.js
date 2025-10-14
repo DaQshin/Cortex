@@ -1,15 +1,12 @@
-const text = document.body.innerText;
-
-chrome.runtime.sendMessage(
-  {
-    header: {
-      type: "content/text",
-      content_length: text.length,
+(() => {
+  const pageContent = document.body.innerText;
+  console.log(pageContent.length);
+  chrome.runtime.sendMessage(
+    {
+      pageContent,
     },
-    content: text,
-  },
-  (response) => {
-    console.log("message sent");
-    console.log(response);
-  }
-);
+    (response) => {
+      console.log(response);
+    }
+  );
+})();

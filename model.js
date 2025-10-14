@@ -1,10 +1,12 @@
 let session = null;
+let sessionPromise = null;
+
 export const checkAvailability = async () => {
   const availability = await LanguageModel.availability();
   return availability;
 };
 
-export const createSession = async (availability, params) => {
+export const createSession = async (availability) => {
   try {
     const availability = await checkAvailability();
     if (availability === "downloadable") {
@@ -15,7 +17,8 @@ export const createSession = async (availability, params) => {
           });
         },
       });
-    } else if (!session) session = await LanguageModel.create(params);
+      sessionStatus = true;
+    } else sessionStatus = false;
   } catch (err) {
     console.log(err);
   }
