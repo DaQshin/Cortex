@@ -1,10 +1,12 @@
 import { getHistories, clearHistories, deleteHistory } from "../storage.js";
-
+import { summarizer } from "../model/summarizer.js";
 const backBtn = document.querySelector(".back-btn");
 const saveTabBtn = document.getElementById("save-tab-btn");
 const clearAllBtn = document.getElementById("clear-all-btn");
-
+const filter = document.getElementById("filter");
+const currentTabSummaryBtn = document.getElementsByClassName("summary-btn")[0];
 // ==================== Button Handlers ====================
+
 clearAllBtn.addEventListener("click", async () => {
   await clearHistories();
   await renderHistory();
@@ -31,6 +33,7 @@ const createHistoryElement = (history) => {
   const tabLogo = container.querySelector(".tab-logo");
   const tabTitle = container.querySelector(".tab-title");
   const delBtn = container.querySelector(".history-del-btn");
+  const summarizeBtn = container.querySelector(".summary-btn");
 
   tabLogo.src = history.favIconURL || "../assets/fallback-logo.png";
   tabLogo.id = `${history.tabId}-tab-logo`;
@@ -57,7 +60,7 @@ const createHistoryElement = (history) => {
 };
 
 // ==================== Render History ====================
-export const renderHistory = async () => {
+export const renderHistory = async (options = {}) => {
   const historyContainer = document.getElementById("history-container");
   const histories = await getHistories();
 
@@ -71,12 +74,15 @@ export const renderHistory = async () => {
       </div>
     `;
     clearAllBtn.style.display = "none";
+    filter.style.display = "none";
     return;
   }
 
   clearAllBtn.style.display = "block";
+  filter.style.display = "flex";
 
   histories.forEach((history) => {
+    history.options = options;
     const el = createHistoryElement(history);
     historyContainer.appendChild(el);
   });

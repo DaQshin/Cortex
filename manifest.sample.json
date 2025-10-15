@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Cortex",
+  "version": "1.0.0",
+  "description": "AI-powered Collective Memory",
+  "permissions": ["tabs", "storage", "scripting", "sidePanel"],
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
+  },
+  "trial_tokens": ["YOUR_TOKENS"],
+  "host_permissions": ["https://*/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://*/*"],
+      "js": ["scripts/content.js"]
+    }
+  ],
+  "action": {
+    "default_title": "My Collective Memory"
+  },
+  "side_panel": {
+    "default_path": "sidepanel/main.html"
+  }
+}

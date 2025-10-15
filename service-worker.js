@@ -1,9 +1,7 @@
-import { setTitle, getTags } from "./model.js";
-
 const updateStorage = async (tab) => {
   console.log(tab);
   const tabId = tab.id;
-  const tabTitle = await setTitle(tab.title, null);
+  const tabTitle = tab.title.split("-")[0];
   const tabURL = tab.url;
   const favIconURL = tab.favIconUrl;
   const newHistory = { tabId, tabTitle, tabURL, favIconURL };
@@ -18,7 +16,7 @@ const updateStorage = async (tab) => {
 let activeTab;
 
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+  chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
     activeTab = tabs[0];
   });
 
@@ -33,16 +31,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "save") {
     updateStorage(activeTab);
   } else if (message.pageContent && message.pageContent.length > 0) {
-    getTags(message.pageContent)
-      .then((tags) => {
-        activeTab.tags = tags;
-        console.log(tags);
-        sendResponse({ success: true, tags });
-      })
-      .catch((error) => {
-        console.error(error);
-        sendResponse({ success: false, error: error.message });
-      });
+    console.log("text length: ", message.pageContent.length);
+    sendResponse("message recieved by sw.js successfully");
   }
   return true;
 });
